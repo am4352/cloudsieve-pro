@@ -143,6 +143,31 @@ resource "aws_security_group" "ec2" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # Observability & Monitoring (Grafana, Prometheus, Alertmanager)
+  ingress {
+    description = "Grafana Dashboard Direct Access"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Prometheus Metrics Direct Access"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Alertmanager Direct Access"
+    from_port   = 9093
+    to_port     = 9093
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   # All Outbound
   egress {
     description = "Allow all outbound traffic"

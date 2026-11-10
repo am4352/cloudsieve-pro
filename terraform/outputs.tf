@@ -45,3 +45,18 @@ output "eks_backend_health_url" {
   description = "FastAPI Backend Health endpoint on Amazon EKS"
   value       = "http://${aws_eip.server_eip.public_ip}:8081/health"
 }
+
+output "grafana_url" {
+  description = "Grafana Observability Dashboard"
+  value       = "http://${aws_eip.server_eip.public_ip}:3000"
+}
+
+output "prometheus_url" {
+  description = "Prometheus Metrics & Alerting Engine"
+  value       = "http://${aws_eip.server_eip.public_ip}:9090"
+}
+
+output "alertmanager_url" {
+  description = "Prometheus Alertmanager UI"
+  value       = "http://${aws_eip.server_eip.public_ip}:9093"
+}
