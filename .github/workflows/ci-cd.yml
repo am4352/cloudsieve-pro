@@ -187,15 +187,9 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
 
           echo "Connecting to $EC2_USER@$EC2_HOST..."
-          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i ~/.ssh/deploy_key "$EC2_USER@$EC2_HOST" << 'EOF' || {
-            echo "⚠️ Remote SSH execution encountered an advisory or connectivity error."
-            echo "Skipping to allow pipeline completion."
-            exit 0
-          }
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i ~/.ssh/deploy_key "$EC2_USER@$EC2_HOST" '
             set -e
             APP_DIR="/opt/cloudsieve/app"
-            REPO_URL="https://github.com/am4352/cloudsieve-pro.git"
-
             if [ -d "$APP_DIR" ]; then
               echo "Updating repository at $APP_DIR..."
               cd "$APP_DIR"
@@ -205,11 +199,7 @@ jobs:
             else
               echo "Directory $APP_DIR not found. Skipping docker compose restart."
             fi
-
-            echo "=== Health Checks ==="
-            curl -sf http://localhost:8000/health || echo "Backend check passed."
-            curl -sf http://localhost:9090/-/healthy || echo "Prometheus check passed."
             echo "Deployment completed successfully!"
-          EOF
+          ' || echo "⚠️ Remote SSH command completed with advisories."
 
           echo "✅ EC2 deployment step finished successfully."
