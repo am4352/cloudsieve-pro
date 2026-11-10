@@ -60,3 +60,8 @@ output "alertmanager_url" {
   description = "Prometheus Alertmanager UI"
   value       = "http://${aws_eip.server_eip.public_ip}:9093"
 }
+
+output "sonarqube_url" {
+  description = "SonarQube Code Quality & Security Gate Dashboard"
+  value       = "http://${aws_eip.server_eip.public_ip}:9000"
+}

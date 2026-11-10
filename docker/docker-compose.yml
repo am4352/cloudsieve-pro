@@ -106,6 +106,21 @@ services:
     depends_on:
       - prometheus
 
+  sonarqube:
+    image: sonarqube:lts-community
+    container_name: cloudsieve-sonarqube
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    networks:
+      - cloudsieve-net
+
 volumes:
   uploads_data:
     driver: local
@@ -116,6 +131,12 @@ volumes:
   alertmanager_data:
     driver: local
   grafana_data:
+    driver: local
+  sonarqube_data:
+    driver: local
+  sonarqube_extensions:
+    driver: local
+  sonarqube_logs:
     driver: local
 
 networks:
